@@ -1,21 +1,21 @@
-Name:          avalon
-Version:       1.0.444
-Release:       1
-Summary:       RSDN offline client
-Group:         Applications/Internet
-License:       BSD-2-clause
-URL:           https://github.com/abbat/avalon
-Requires:      libqt4 >= 4.4, aspell, zlib
-BuildRequires: libqt4-devel >= 4.4, aspell-devel, zlib-devel
+Name:           avalon
+Version:        1.0.445
+Release:        1
+Summary:        RSDN offline client
+Group:          Applications/Internet
+License:        BSD-2-clause
+URL:            https://github.com/abbat/avalon/tree/1.0
+Conflicts:      avalon2
+BuildRequires:  libqt4-devel >= 4.4, aspell-devel, zlib-devel
+Source0:        https://build.opensuse.org/source/home:antonbatenev:avalon/avalon/avalon_%{version}.tar.bz2
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %if 0%{?suse_version}
-Requires:      libQtWebKit4
-BuildRequires: libQtWebKit-devel
+BuildRequires:  libQtWebKit-devel
 %endif
 
 %if 0%{?fedora} || 0%{?centos}
-Requires:      qtwebkit
-BuildRequires: qtwebkit-devel
+BuildRequires:  qtwebkit-devel
 %endif
 
 %define qmake qmake
@@ -23,24 +23,21 @@ BuildRequires: qtwebkit-devel
 %define qmake qmake-qt4
 %endif
 
-Source0:       https://build.opensuse.org/source/home:antonbatenev:avalon/avalon/avalon_%{version}.tar.bz2
-BuildRoot:     %{_tmppath}/%{name}-%{version}-build
-
-
 %description
 Offile client for Russian Software Developer Network
 
 
 %prep
-%setup -q -n avalon
+%setup -q -n %{name}
 
 
 %build
 %{qmake} -project -recursive -Wall -nopwd -o avalon.pro \
-    "CONFIG += debug_and_release" \
-    "QT += network sql webkit" \
-    "LIBS += -laspell -lz" \
-    "DEFINES += AVALON_PACKAGE" \
+    "CONFIG += release"                                 \
+    "QT += network sql webkit"                          \
+    "INCLUDEPATH += src"                                \
+    "DEFINES += AVALON_PACKAGE"                         \
+    "LIBS += -laspell -lz"                              \
     src
 %{qmake} avalon.pro
 make %{?_smp_mflags}
@@ -69,5 +66,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Mar 25 2016 Anton Batenev <antonbatenev@yandex.ru> 1.0.444-1
+* Fri Jun 24 2016 Anton Batenev <antonbatenev@yandex.ru> 1.0.445-1
 - Initial RPM release

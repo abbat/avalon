@@ -1,3 +1,11 @@
+avalon (1.0.445) stable; urgency=low
+
+  * Релиз v2.0.1 - добавление конфликтов;
+  * Исправление файлов сборки на строгий Qt4;
+  * Добавление отладочных символов.
+
+ -- Anton Batenev <antonbatenev@yandex.ru>  Fri, 24 Jun 2016 01:31:31 +0300
+
 avalon (1.0.444) stable; urgency=low
 
   * Переключение ссылок на проект.

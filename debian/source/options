@@ -8,6 +8,7 @@ tar-ignore = debug
 tar-ignore = highlight
 tar-ignore = release
 tar-ignore = tests
+tar-ignore = PKGBUILD
 tar-ignore = avalon.spec
 tar-ignore = build.linux.sh
 tar-ignore = build.mingw.bat

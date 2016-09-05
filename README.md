@@ -2,7 +2,7 @@
 
 # Avalon
 
-Кросс-платформенный клиент для offline работы с форумами [RSDN](http://www.rsdn.ru/projects/janus/article/article.xml), аналогичный проекту [RSDN@Home](http://www.rsdn.ru/projects/janus/article/article.xml) команды RSDN под Windows.
+Кросс-платформенный клиент для offline работы с форумами [RSDN](http://rsdn.org/projects/janus/article/article.xml), аналогичный проекту [RSDN@Home](http://rsdn.org/projects/janus/article/article.xml) команды RSDN под Windows.
 
 # Загрузка / Установка
 

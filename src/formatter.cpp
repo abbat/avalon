@@ -56,8 +56,8 @@ QString AFormatter::subjectHTML (const AMessageInfo& message, const AForumInfo* 
 	if (forum != NULL)
 	{
 		result +=
-			pad + "	<a id='move_to_thread' href='https://rsdn.ru/forum/" + forum->ShortName + "/" + QString::number(message.ID) + QString::fromUtf8("'><img src='qrc:/icons/show_topic.png' title='показать положение в теме' /></a>\n") +
-			pad + "	<a id='subject' href='https://rsdn.ru/forum/" + forum->ShortName + "/" + QString::number(message.ID) + ".1'>" + subject + "</a>\n";
+			pad + "	<a id='move_to_thread' href='" + AGlobal::getInstance()->rsdnUrl() + "/forum/" + forum->ShortName + "/" + QString::number(message.ID) + QString::fromUtf8("'><img src='qrc:/icons/show_topic.png' title='показать положение в теме' /></a>\n") +
+			pad + "	<a id='subject' href='" + AGlobal::getInstance()->rsdnUrl() + "/forum/" + forum->ShortName + "/" + QString::number(message.ID) + ".1'>" + subject + "</a>\n";
 	}
 	else
 		result += pad + "<p id='subject'>" + subject + "</p>\n";
@@ -103,7 +103,7 @@ QString AFormatter::authorHTML (int id, const QString nick)
 	if (id == 0 || id == -1)
 		result += pad + QString::fromUtf8("<div class='info_left'>От:</div><div class='info_right'>") + nick + "</div><br />\n";
 	else
-		result += pad + QString::fromUtf8("<div class='info_left'>От:</div><div class='info_right'><a href='https://rsdn.ru/account/info/") + QString::number(id) + "'>" + nick + "</a></div><br />\n";
+		result += pad + QString::fromUtf8("<div class='info_left'>От:</div><div class='info_right'><a href='") + AGlobal::getInstance()->rsdnUrl() + "/account/info/" + QString::number(id) + "'>" + nick + "</a></div><br />\n";
 
 	return result;
 }
@@ -153,7 +153,7 @@ QString AFormatter::ratingHTML (int id, const AMessageRatingList* rating_list)
 		QString pad = "			";
 
 		result +=
-			pad + "<div class='info_left'><a id='rating' href='https://rsdn.ru/forum/RateList.aspx?mid=" + QString::number(id) + QString::fromUtf8("'>Оценки</a>:</div>\n") +
+			pad + "<div class='info_left'><a id='rating' href='" + AGlobal::getInstance()->rsdnUrl() + "/forum/RateList.aspx?mid=" + QString::number(id) + QString::fromUtf8("'>Оценки</a>:</div>\n") +
 			pad + "<div class='info_right'>\n";
 
 		if (rate_smile > 0)
@@ -651,7 +651,7 @@ QString AFormatter::normalizeBody (const QString& body, const QString& nick)
 	data.replace(tagline,   "");
 	data.replace(moderator, "");
 
-	// удаляем img с даными вместо ссылки (например, см. https://rsdn.ru/forum/flame.comp/4077971.1)
+	// удаляем img с даными вместо ссылки (например, см. https://rsdn.org/forum/flame.comp/4077971.1)
 	QRegExp img1("\\[img\\]data:(\\S+)\\[/img\\]", Qt::CaseInsensitive);
 	img1.setMinimal(true);
 	data.replace(img1, "");
@@ -661,7 +661,7 @@ QString AFormatter::normalizeBody (const QString& body, const QString& nick)
 	img2.setMinimal(true);
 	data.replace(img2, QString::fromUtf8("[url=\\1]\\1[/url]"));
 
-	// укорачивание длинных ссылок (например, см. https://rsdn.ru/forum/web/4086359.1)
+	// укорачивание длинных ссылок (например, см. https://rsdn.org/forum/web/4086359.1)
 	QRegExp url1("\\[url=data:(\\S+)\\](.+)\\[/url\\]", Qt::CaseInsensitive);
 	url1.setMinimal(true);
 	data.replace(url1, "[url=bad%20link]\\2[/url]");

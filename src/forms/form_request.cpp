@@ -1,5 +1,7 @@
 #include "form_request.h"
 //----------------------------------------------------------------------------------------------
+#include "global.h"
+//----------------------------------------------------------------------------------------------
 
 FormRequest::FormRequest (QWidget* parent) : FormRequestUI (parent), IProgress ()
 {
@@ -15,24 +17,23 @@ FormRequest::~FormRequest ()
 }
 //----------------------------------------------------------------------------------------------
 
-FormRequest::FormRequest (QWidget* parent, const QString& host, quint16 port, const QString& header, const QString& data) : FormRequestUI (parent), IProgress ()
+FormRequest::FormRequest (QWidget* parent, const QString& header, const QString& data) : FormRequestUI (parent), IProgress ()
 {
 	m_hack    = 0;
 	m_to_send = 0;
 
-	bool https = (port == 443 ? true : false);
+	quint16 port = AGlobal::getInstance()->rsdnPort();
+	QString host = AGlobal::getInstance()->rsdnHost();
+
+	m_proto = AGlobal::getInstance()->rsdnProto().toUpper();
+
+	bool https = (m_proto == "HTTPS" ? true : false);
 
 	QTcpSocket* socket = NULL;
 	if (https == true)
-	{
-		m_proto = "HTTPS";
-		socket  = new QSslSocket(this);
-	}
+		socket = new QSslSocket(this);
 	else
-	{
-		m_proto = "HTTP";
-		socket  = new QTcpSocket(this);
-	}
+		socket = new QTcpSocket(this);
 
 	socket->setProxy(defaultProxy());
 

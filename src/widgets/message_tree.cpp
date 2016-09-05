@@ -1540,9 +1540,9 @@ void AMessageTree::processUrl (const QString& url)
 		external_url.replace("avalon:", "");
 
 		// проверка на то, что URL является ссылкой на сообщение RSDN
-		// TODO: дополнить регэксп на ссылку вида https://rsdn.ru/forum/Message.aspx?mid=3900833&only=1
-		// пример встречается по ссылке https://rsdn.ru/forum/unix/3901241.1
-		QRegExp rsdn_url("^(https?://){0,1}((www|gzip)\\.){0,1}rsdn.ru/forum/.+/(\\d+)(\\.(1|flat|aspx)){0,1}", Qt::CaseInsensitive);
+		// TODO: дополнить регэксп на ссылку вида https://rsdn.org/forum/Message.aspx?mid=3900833&only=1
+		// пример встречается по ссылке https://rsdn.org/forum/unix/3901241.1
+		QRegExp rsdn_url("^(https?://){0,1}((www|gzip)\\.){0,1}rsdn\\.(ru|org)/forum/.+/(\\d+)(\\.(1|flat|aspx)){0,1}", Qt::CaseInsensitive);
 
 		if (rsdn_url.indexIn(external_url) == -1)
 			QDesktopServices::openUrl(external_url);
@@ -1553,7 +1553,7 @@ void AMessageTree::processUrl (const QString& url)
 
 			bool is_int     = false;
 			int  id_forum   = 0;
-			int  id_message = rsdn_url.cap(4).toInt(&is_int);
+			int  id_message = rsdn_url.cap(5).toInt(&is_int);
 
 			// проверка того, что текущее выделение не есть это же сообщение
 			MessageTreeWidgetItem* item = static_cast<MessageTreeWidgetItem*>(currentItem());

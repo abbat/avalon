@@ -1,3 +1,9 @@
+avalon (1.0.446) stable; urgency=low
+
+  * Добавление возможности работы с rsdn.org и использование его по умолчанию.
+
+ -- Anton Batenev <antonbatenev@yandex.ru>  Mon, 05 Sep 2016 18:36:18 +0300
+
 avalon (1.0.445) stable; urgency=low
 
   * Релиз v2.0.1 - добавление конфликтов;

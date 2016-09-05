@@ -1,5 +1,7 @@
 #include "web_view.h"
 //----------------------------------------------------------------------------------------------
+#include "global.h"
+//----------------------------------------------------------------------------------------------
 
 AWebView::AWebView (QWidget* parent) : QWebView (parent)
 {
@@ -145,7 +147,7 @@ void AWebView::menu_rsdn_triggered ()
 {
 	QString selected = page()->selectedText();
 
-	QString url = (QString)"https://rsdn.ru/rsdnsearch?text=" + selected;
+	QString url = AGlobal::getInstance()->rsdnUrl() + "/rsdnsearch?text=" + selected;
 
 	QDesktopServices::openUrl(url);
 }

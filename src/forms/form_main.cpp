@@ -136,12 +136,6 @@ void AFormMain::menu_service_synchronize_triggered ()
 
 	m_message_tree->getSelectedPath(restore_path);
 
-	// основные настройки
-	QSettings settings;
-
-	QString rsdn_host = settings.value("rsdn/host", "rsdn.ru").toString();
-	int     rsdn_port = settings.value("rsdn/port", "80").toInt();
-
 	// получение хранилища
 	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
 
@@ -204,7 +198,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 	{
 		AWebservice::postChange_WebserviceQuery(header, data, messages, ratings, moderates, NULL);
 
-		std::auto_ptr<FormRequest> form(new FormRequest(this, rsdn_host, rsdn_port, header, data));
+		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -228,7 +222,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 	{
 		AWebservice::postChangeCommit_WebserviceQuery(header, data, cookie, NULL);
 
-		std::auto_ptr<FormRequest> form(new FormRequest(this, rsdn_host, rsdn_port, header, data));
+		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -349,7 +343,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 		AWebservice::getUserList_WebserviceQuery(header, data, row_version.User, NULL);
 
 		// запрос к вебсервису
-		std::auto_ptr<FormRequest> form(new FormRequest(this, rsdn_host, rsdn_port, header, data));
+		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -426,7 +420,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 		AWebservice::getMessageList_WebserviceQuery(header, data, row_version, query, NULL);
 
 		// запрос к вебсервису
-		std::auto_ptr<FormRequest> form(new FormRequest(this, rsdn_host, rsdn_port, header, data));
+		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -662,14 +656,14 @@ void AFormMain::menu_q_google_url_triggered ()
 
 void AFormMain::menu_q_rsdn_url_triggered ()
 {
-	QDesktopServices::openUrl(QString("https://rsdn.ru"));
+	QDesktopServices::openUrl(AGlobal::getInstance()->rsdnUrl());
 }
 //----------------------------------------------------------------------------------------------
 
 void AFormMain::menu_q_about_triggered ()
 {
 	QString text = QString::fromUtf8(
-		"<b>avalon</b> - кросс-платформенный клиент для чтения форумов <a href='https://rsdn.ru'>rsdn</a> аналогичный проекту <a href='https://rsdn.ru/projects/janus/article/article.xml'>janus</a> команды rsdn под windows.<br/><br/>"
+		"<b>avalon</b> - кросс-платформенный клиент для чтения форумов <a href='https://rsdn.org'>rsdn</a> аналогичный проекту <a href='https://rsdn.org/projects/janus/article/article.xml'>janus</a> команды rsdn под windows.<br/><br/>"
 		"<b>домашняя страница</b>: <a href='https://github.com/abbat/avalon'>https://github.com/abbat/avalon</a><br/><br/>"
 		"<b>разработчики</b>:"
 		"<ul>"
@@ -680,6 +674,7 @@ void AFormMain::menu_q_about_triggered ()
 		"<li><a href='http://ua-coder.blogspot.com/'>Anatoliy</a></li>"
 		"<li><a href='https://github.com/astavonin'>Alexander Stavonin</a></li>"
 		"<li><a href='https://github.com/kan-izh'>kan-izh</a></li>"
+		"<li><a href='http://zarezky.spb.ru/'>Elijah Zarezky</a></li>"
 		"</ul>"
 	);
 

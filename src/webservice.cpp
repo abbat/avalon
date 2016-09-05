@@ -1,4 +1,7 @@
 #include "webservice.h"
+//----------------------------------------------------------------------------------------------
+#include "global.h"
+//----------------------------------------------------------------------------------------------
 
 /*!
  * \brief Возвращает текст между from-to не включая их из строки source
@@ -105,7 +108,7 @@ void AWebservice::getForumList_WebserviceQuery (QString& header, QString& data, 
 
 	header = "";
 	header += "POST /ws/janusAT.asmx HTTP/1.1\r\n";
-	header += "Host: rsdn.ru\r\n";
+	header += (QString)"Host: " + AGlobal::getInstance()->rsdnHost() + "\r\n";
 	header += "Connection: close\r\n";
 
 	#ifdef AVALON_USE_ZLIB
@@ -248,7 +251,7 @@ void AWebservice::getUserList_WebserviceQuery (QString& header, QString& data, c
 
 	header = "";
 	header += "POST /ws/janusAT.asmx HTTP/1.1\r\n";
-	header += "Host: rsdn.ru\r\n";
+	header += (QString)"Host: " + AGlobal::getInstance()->rsdnHost() + "\r\n";
 	header += "Connection: close\r\n";
 
 	#ifdef AVALON_USE_ZLIB
@@ -299,7 +302,7 @@ QString AWebservice::getUserList_WebserviceParse (const QString& data, AUserInfo
 
 	// проверка ошибок получения версий строк
 	// подавлять ошибки сбросом в значение по умолчанию ("AAAAAAAAAAA=") оказалось неправильно
-	// подробнее см. https://rsdn.ru/forum/janus/3449147.1
+	// подробнее см. https://rsdn.org/forum/janus/3449147.1
 	if (row_version.length() == 0)
 		return QString::fromUtf8("В ответе вебсервиса не найдено поле <lastRowVersion>");
 
@@ -384,7 +387,7 @@ void AWebservice::getMessageList_WebserviceQuery (QString& header, QString& data
 
 	header = "";
 	header += "POST /ws/janusAT.asmx HTTP/1.1\r\n";
-	header += "Host: rsdn.ru\r\n";
+	header += (QString)"Host: " + AGlobal::getInstance()->rsdnHost() + "\r\n";
 	header += "Connection: close\r\n";
 
 	#ifdef AVALON_USE_ZLIB
@@ -501,7 +504,7 @@ QString AWebservice::getMessageList_WebserviceParse (const QString& data, ADataL
 
 	// проверка ошибок получения версий строк
 	// подавлять ошибки сбросом в значение по умолчанию ("AAAAAAAAAAA=") оказалось неправильно
-	// подробнее см. https://rsdn.ru/forum/janus/3449147.1
+	// подробнее см. https://rsdn.org/forum/janus/3449147.1
 	// выбрасывать ошибку (r253) тоже оказалось неправильно - для некоторых форумов не приходят ни рейтинги ни модерилки
 	if (lastRatingRowVersion.length() != 0)
 		row_version.Rating = lastRatingRowVersion;
@@ -616,7 +619,7 @@ void AWebservice::postChange_WebserviceQuery (QString& header, QString& data, co
 
 	header = "";
 	header += "POST /ws/janusAT.asmx HTTP/1.1\r\n";
-	header += "Host: rsdn.ru\r\n";
+	header += (QString)"Host: " + AGlobal::getInstance()->rsdnHost() + "\r\n";
 	header += "Connection: close\r\n";
 
 	#ifdef AVALON_USE_ZLIB
@@ -688,7 +691,7 @@ void AWebservice::postChangeCommit_WebserviceQuery (QString& header, QString& da
 
 	header = "";
 	header += "POST /ws/janusAT.asmx HTTP/1.1\r\n";
-	header += "Host: rsdn.ru\r\n";
+	header += (QString)"Host: " + AGlobal::getInstance()->rsdnHost() + "\r\n";
 	header += "Connection: close\r\n";
 
 	#ifdef AVALON_USE_ZLIB

@@ -61,13 +61,13 @@ class AGlobal
 
 		/*!
 		 * \brief Базовое имя хоста работы с сайтом rsdn
-		 * \return Имя хоста (rsdn.ru, rsdn.org, etc)
+		 * \return Имя хоста (rsdn.org, rsdn.ru, etc)
 		 */
 		const QString& rsdnHost() const { return m_rsdn_host; }
 
 		/*!
 		 * \brief Базовый URL работы с сайтом rsdn
-		 * \return URL вида https://rsdn.ru
+		 * \return URL вида https://rsdn.org
 		 */
 		const QString& rsdnUrl() const { return m_rsdn_url; }
 

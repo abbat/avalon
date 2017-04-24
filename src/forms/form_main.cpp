@@ -727,7 +727,7 @@ void AFormMain::menu_goto_by_id_triggered ()
 
 		if (is_int == false)
 		{
-			QRegExp reg_id_message("rsdn\\.ru.+(\\d+).+");
+			QRegExp reg_id_message("rsdn\\.(ru|org).+(\\d+).+");
 
 			if (reg_id_message.indexIn(text) == -1)
 			{
@@ -735,7 +735,7 @@ void AFormMain::menu_goto_by_id_triggered ()
 				return;
 			}
 
-			QString str_id_message = reg_id_message.cap(1);
+			QString str_id_message = reg_id_message.cap(2);
 
 			id_message = str_id_message.toInt(&is_int);
 		}
@@ -938,7 +938,7 @@ void AFormMain::menu_service_download_triggered()
 
 		if (is_int == false)
 		{
-			QRegExp reg_message_id("rsdn\\.ru.+(\\d+).+");
+			QRegExp reg_message_id("rsdn\\.(ru|org).+(\\d+).+");
 
 			if (reg_message_id.indexIn(text) == -1)
 			{
@@ -946,7 +946,7 @@ void AFormMain::menu_service_download_triggered()
 				return;
 			}
 
-			QString str_message_id = reg_message_id.cap(1);
+			QString str_message_id = reg_message_id.cap(2);
 
 			message_id = str_message_id.toInt(&is_int);
 		}

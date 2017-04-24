@@ -19,23 +19,14 @@ AGlobal::AGlobal ()
 	g_global = this;
 
 	// предпочитаемый список шифров
-	// $ openssl ciphers -tls1 'HIGH:!TLSv1.2:!aNULL:!MD5:!3DES:!CAMELLIA:!SRP:!PSK:@STRENGTH'
 	static const char* AVALON_CIPHERS[] =
 	{
-		"ECDHE-RSA-AES256-SHA",
-		"ECDHE-ECDSA-AES256-SHA",
-		"DHE-RSA-AES256-SHA",
-		"DHE-DSS-AES256-SHA",
-		"ECDH-RSA-AES256-SHA",
-		"ECDH-ECDSA-AES256-SHA",
-		"AES256-SHA",
-		"ECDHE-RSA-AES128-SHA",
-		"ECDHE-ECDSA-AES128-SHA",
-		"DHE-RSA-AES128-SHA",
-		"DHE-DSS-AES128-SHA",
-		"ECDH-RSA-AES128-SHA",
-		"ECDH-ECDSA-AES128-SHA",
-		"AES128-SHA",
+		"ECDHE-RSA-AES128-SHA",     // SSLv3 Kx=ECDH Au=RSA   Enc=AES(128) Mac=SHA1
+		"ECDHE-ECDSA-AES128-SHA",   // SSLv3 Kx=ECDH Au=ECDSA Enc=AES(128) Mac=SHA1
+		"ECDHE-RSA-AES256-SHA",     // SSLv3 Kx=ECDH Au=RSA   Enc=AES(256) Mac=SHA1
+		"ECDHE-ECDSA-AES256-SHA",   // SSLv3 Kx=ECDH Au=ECDSA Enc=AES(256) Mac=SHA1
+		"AES128-SHA",               // SSLv3 Kx=RSA  Au=RSA   Enc=AES(128) Mac=SHA1
+		"AES256-SHA",               // SSLv3 Kx=RSA  Au=RSA   Enc=AES(256) Mac=SHA1
 		NULL
 	};
 

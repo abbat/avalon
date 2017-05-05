@@ -9,7 +9,6 @@
 * [Debian, Ubuntu](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
 * [Fedora, openSUSE, CentOS](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
 * [Ubuntu PPA](https://launchpad.net/~abbat/+archive/ubuntu/avalon) - `ppa:abbat/avalon`
-* [Arch](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
 * [Windows](https://yadi.sk/d/W9kZi-GLqTN7G)
 
 # Настройка highlight.js

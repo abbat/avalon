@@ -34,3 +34,11 @@ SocksListenAddress 127.0.0.1
 ```
 
 и прописывании SOCKS-5 прокси на адрес 127.0.0.1 и порт 9050 в avalon (меню `"Сервис / Настройки"` вкладка `"Сеть"`).
+
+## Не работает подсветка кода
+
+Скачайте [highlight.js](https://highlightjs.org) и распакуйте по пути `~/.avalon/highlight`.
+
+## Настройка отображения сообщений
+
+Поместите файл [style.css](https://github.com/abbat/avalon/blob/master/src/style.css) по пути `~/.avalon/avalon.css` и переопределите необходимые параметры для размера шрифта, цвета и т.д.

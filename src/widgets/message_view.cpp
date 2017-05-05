@@ -46,7 +46,7 @@ void AMessageView::setMessage (const AMessageInfo& message, const AForumInfo* fo
 	QString body;
 
 	// загрузка рейтингов (если требуется)
-	if (forum != NULL && forum->Rated == true && message.IDUser != AGlobal::getInstance()->Me.ID)
+	if (forum != NULL && forum->Rated == true)
 	{
 		// "тихий" контроль ошибок, т.к. не страшно, если пузомерка не загрузится
 		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());

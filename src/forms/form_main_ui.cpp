@@ -50,6 +50,11 @@ AFormMainUI::AFormMainUI () : QMainWindow ()
 	m_menu_goto_next_unread_forum->setShortcut(QString("F"));
 	m_menu_goto_next_unread_forum->setEnabled(false);
 
+	m_menu_goto_next_smart = m_menu_goto->addAction(QString::fromUtf8("Читать далее"));
+	m_menu_goto_next_smart->setIcon(QIcon(":/icons/nextunreadarticle16.png"));
+	m_menu_goto_next_smart->setShortcut(QString("Space"));
+	m_menu_goto_next_smart->setEnabled(false);
+
 	m_menu_service->addSeparator();
 
 	m_menu_goto_by_id = m_menu_goto->addAction(QString::fromUtf8("Перейти к сообщению"));
@@ -76,6 +81,18 @@ AFormMainUI::AFormMainUI () : QMainWindow ()
 	m_menu_service_reply->setIcon(QIcon(":/icons/reply16.png"));
 	m_menu_service_reply->setShortcut(QString("CTRL+R"));
 	m_menu_service_reply->setEnabled(false);
+
+	m_menu_service->addSeparator();
+
+	m_menu_service_mark_thread_as_read = m_menu_service->addAction(QString::fromUtf8("Пометить ветку как прочитанную"));
+	m_menu_service_mark_thread_as_read->setIcon(QIcon(":/icons/markpatrialasread16.png"));
+	m_menu_service_mark_thread_as_read->setShortcut(QString("CTRL+S"));
+	m_menu_service_mark_thread_as_read->setEnabled(false);
+
+	m_menu_service_mark_thread_as_unread = m_menu_service->addAction(QString::fromUtf8("Пометить ветку как непрочитанную"));
+	m_menu_service_mark_thread_as_unread->setIcon(QIcon(":/icons/markpatrialasunread16.png"));
+	m_menu_service_mark_thread_as_unread->setShortcut(QString("CTRL+U"));
+	m_menu_service_mark_thread_as_unread->setEnabled(false);
 
 	m_menu_service->addSeparator();
 

@@ -26,6 +26,7 @@
 #include <QToolBar>
 #include <QPainter>
 #include <QProcess>
+#include <QWebFrame>
 #include <QLineEdit>
 #include <QSplitter>
 #include <QSettings>

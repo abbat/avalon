@@ -1214,8 +1214,8 @@ void AMessageTree::menu_mark_thread_as_read_triggered ()
 		if (markThreadAsRead(id_topic, true) != true)
 			return;
 
-                // обновление количества непрочитаных в дереве форума с перезагрузкой
-                m_forum_tree->reloadUnread(true);
+		// обновление количества непрочитаных в дереве форума с перезагрузкой
+		m_forum_tree->reloadUnread(true);
 
 		// переход на выделенное
 		QList<int> path;
@@ -1257,9 +1257,9 @@ void AMessageTree::menu_mark_thread_as_read_triggered ()
 		info->UnreadChildCount   = 0;
 		info->UnreadChildCountMy = 0;
 
-                // поскольку дочерние элементы еще не загружены,
-                // обновление количества непрочитаных в дереве форума
-                m_forum_tree->reloadUnread(false);
+		// поскольку дочерние элементы еще не загружены,
+		// обновление количества непрочитаных в дереве форума
+		m_forum_tree->reloadUnread(false);
 	}
 }
 //----------------------------------------------------------------------------------------------
@@ -1286,8 +1286,8 @@ void AMessageTree::menu_mark_thread_as_unread_triggered ()
 		if (markThreadAsRead(id_topic, false) != true)
 			return;
 
-                // обновление количества непрочитаных в дереве форума с перезагрузкой
-                m_forum_tree->reloadUnread(true);
+		// обновление количества непрочитаных в дереве форума с перезагрузкой
+		m_forum_tree->reloadUnread(true);
 
 		// переход на выделенное
 		QList<int> path;
@@ -1334,9 +1334,9 @@ void AMessageTree::menu_mark_thread_as_unread_triggered ()
 
 		info->HasUnreadChildMy = false;
 
-                // поскольку дочерние элементы еще не загружены,
-                // обновление количества непрочитаных в дереве форума
-                m_forum_tree->reloadUnread(false);
+		// поскольку дочерние элементы еще не загружены,
+		// обновление количества непрочитаных в дереве форума
+		m_forum_tree->reloadUnread(false);
 
 		// перегружаем информацию о топике (возможно, что есть непрочитанные сообщения для меня)
 		info->IsInfoLoaded = false;
@@ -2503,5 +2503,17 @@ void AMessageTree::gotoForward ()
 void AMessageTree::reply ()
 {
 	menu_reply_triggered();
+}
+//----------------------------------------------------------------------------------------------
+
+void AMessageTree::markThreadAsRead ()
+{
+	menu_mark_thread_as_read_triggered();
+}
+//----------------------------------------------------------------------------------------------
+
+void AMessageTree::markThreadAsUnread ()
+{
+	menu_mark_thread_as_unread_triggered();
 }
 //----------------------------------------------------------------------------------------------

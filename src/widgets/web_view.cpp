@@ -46,6 +46,19 @@ void AWebView::keyPressEvent (QKeyEvent* event)
 }
 //----------------------------------------------------------------------------------------------
 
+bool AWebView::canScrollPage ()
+{
+	return (page()->mainFrame()->scrollBarValue(Qt::Vertical) != page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
+}
+//----------------------------------------------------------------------------------------------
+
+void AWebView::scrollPage ()
+{
+	QKeyEvent event(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+	keyPressEvent(&event);
+}
+//----------------------------------------------------------------------------------------------
+
 void AWebView::contextMenuEvent (QContextMenuEvent* event)
 {
 	QString selected = page()->selectedText();

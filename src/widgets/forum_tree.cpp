@@ -505,7 +505,7 @@ void AForumTree::reloadUnread (bool reload_message_tree)
 	// перезагрузка дерева сообщений
 	if (reload_message_tree == true)
 		current_item_changed(currentItem(), currentItem());
-        else
+	else
 	{
 		// если перезагрузка не указана, но текущая группа специальная
 		QTreeWidgetItem* item = getSelectedForumItem();

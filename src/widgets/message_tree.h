@@ -61,7 +61,7 @@ class AMessageTree :
 		/*!
 		 * \brief При изменении размеров происходит псевдо-скроллинг сообщений (см. vertical_scroll)
 		 */
-                void resizeEvent (QResizeEvent* event);
+		void resizeEvent (QResizeEvent* event);
 
 	private:
 
@@ -158,11 +158,11 @@ class AMessageTree :
 		void expandUnreadChild (QTreeWidgetItem* widget_item);
 
 		/*!
-                 * \brief Функция проверки установки выделения, в случае отсутствия выделения, выделяет элемент, согласно параметру select_first
-                 * \param select_first Флаг выделения, если имеет значение true, то выделяется первый элемент, иначе, последний (из корневых)
-                 * \return true, если есть выделение, false при отсутствии элементов
-                 */
-                bool checkCurrentItem (bool select_first = true);
+		 * \brief Функция проверки установки выделения, в случае отсутствия выделения, выделяет элемент, согласно параметру select_first
+		 * \param select_first Флаг выделения, если имеет значение true, то выделяется первый элемент, иначе, последний (из корневых)
+		 * \return true, если есть выделение, false при отсутствии элементов
+		 */
+		bool checkCurrentItem (bool select_first = true);
 
 		/*!
 		 * \brief Редактирование оценки к отправке
@@ -245,6 +245,9 @@ class AMessageTree :
 		void gotoForward  ();
 
 		void reply ();
+
+		void markThreadAsRead ();
+		void markThreadAsUnread ();
 
 	// IMessageInfoGUIFactory
 	private:

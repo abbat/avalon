@@ -1,3 +1,10 @@
+avalon (1.0.449) stable; urgency=low
+
+  * "Умная" навигация по пробелу;
+  * Шоткаты для пометки ветки как (не)прочитанной.
+
+ -- Anton Batenev <antonbatenev@yandex.ru>  Fri, 01 Sep 2017 19:23:38 +0300
+
 avalon (1.0.448) stable; urgency=low
 
   * Отображение оценок на собственные сообщения.

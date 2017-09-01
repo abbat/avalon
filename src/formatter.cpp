@@ -191,7 +191,7 @@ QString AFormatter::footerHTML ()
 
 QString AFormatter::formatMessage (const AMessageInfo& message, const AForumInfo* forum, bool rated, const AMessageRatingList* rating_list)
 {
-	Q_ASSERT(forum != NULL && forum->IDGroup == SPECIAL_ID_GROUP);
+	Q_ASSERT(forum != NULL && forum->IDGroup != SPECIAL_ID_GROUP);
 
 	// парсинг сообщения
 	AParsedBlockList list = AParser::parseBlocks(message.Message);

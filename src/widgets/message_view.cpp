@@ -41,7 +41,7 @@ void AMessageView::setMessageTree (IMessageTree* itf)
 
 void AMessageView::setMessage (const AMessageInfo& message, const AForumInfo* forum)
 {
-	Q_ASSERT(forum != NULL && forum->IDGroup == SPECIAL_ID_GROUP);
+	Q_ASSERT(forum != NULL && forum->IDGroup != SPECIAL_ID_GROUP);
 
 	QString body;
 

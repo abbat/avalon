@@ -72,6 +72,16 @@ class IMessageTree
 		 * \brief Ответить на сообщение
 		 */
 		virtual void reply () = 0;
+
+		/*!
+		 * \brief Пометить ветку как прочитанную
+		 */
+		virtual void markThreadAsRead () = 0;
+
+		/*!
+		 * \brief Пометить ветку как не прочитанную
+		 */
+		virtual void markThreadAsUnread () = 0;
 };
 
 #endif

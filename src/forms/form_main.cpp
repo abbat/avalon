@@ -1007,7 +1007,7 @@ void AFormMain::menu_service_download_triggered()
 		if (storage->addBroken(message_id, true) == false)
 			storage->showError(this);
 		else
-			QMessageBox::information(this, QString::fromUtf8("Внимание!"), QString::fromUtf8("Сообщение ") + QString::number(message_id) + QString::fromUtf8(" будет загруженно при следующей синхронизации"));
+			QMessageBox::information(this, QString::fromUtf8("Внимание!"), QString::fromUtf8("Сообщение ") + QString::number(message_id) + QString::fromUtf8(" будет загружено при следующей синхронизации"));
 	}
 }
 //----------------------------------------------------------------------------------------------

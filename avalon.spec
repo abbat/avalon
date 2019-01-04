@@ -32,11 +32,15 @@ Offile client for Russian Software Developer Network
 
 %build
 %{qmake} -project -recursive -Wall -nopwd -o avalon.pro \
-    "CONFIG += release"                                 \
-    "QT += network sql webkit"                          \
-    "INCLUDEPATH += src"                                \
-    "DEFINES += AVALON_PACKAGE"                         \
-    "LIBS += -laspell -lz"                              \
+    "CONFIG         += release"                         \
+    "QT             += network sql webkit"              \
+    "INCLUDEPATH    += src"                             \
+    "DEFINES        += AVALON_PACKAGE"                  \
+    "LIBS           += -laspell -lz"                    \
+    "QMAKE_CPPFLAGS *= ${RPM_OPT_FLAGS}"                \
+    "QMAKE_CFLAGS   *= ${RPM_OPT_FLAGS}"                \
+    "QMAKE_CXXFLAGS *= ${RPM_OPT_FLAGS}"                \
+    "QMAKE_LFLAGS   *= ${RPM_LD_FLAGS}"                 \
     src
 %{qmake} avalon.pro
 make %{?_smp_mflags}

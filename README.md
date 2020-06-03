@@ -4,10 +4,15 @@
 
 Кросс-платформенный клиент для offline работы с форумами [RSDN](http://rsdn.org/projects/janus/article/article.xml), аналогичный проекту [RSDN@Home](http://rsdn.org/projects/janus/article/article.xml) команды RSDN под Windows.
 
+# EOL
+
+Ветка 1.x более не поддерживается т.к. собирается только под Qt4, а поддержка Qt 4.8.7 закончилась в 2015 году.
+
 # Загрузка / Установка
 
-* [Debian, Ubuntu](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
-* [Fedora, openSUSE, CentOS](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
+Пока существуют дистрибутивы с поддержкой Qt4:
+
+* [DEB, RPM](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon)
 * [Ubuntu PPA](https://launchpad.net/~abbat/+archive/ubuntu/avalon) - `ppa:abbat/avalon`
 * [Windows](https://yadi.sk/d/W9kZi-GLqTN7G)
 

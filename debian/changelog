@@ -1,3 +1,9 @@
+avalon (1.0.451) unstable; urgency=low
+
+  * 1.x - EOL.
+
+ -- Anton Batenev <antonbatenev@yandex.ru>  Wed, 03 Jun 2020 20:26:34 +0300
+
 avalon (1.0.450) unstable; urgency=low
 
   * Ограничение изображений по viewport;

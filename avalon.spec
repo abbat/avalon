@@ -1,11 +1,11 @@
 Name:           avalon
-Version:        1.0.450
+Version:        1.0.451
 Release:        1
 Summary:        RSDN offline client
 Group:          Applications/Internet
 License:        BSD-2-clause
 URL:            https://github.com/abbat/avalon/tree/1.0
-Conflicts:      avalon2
+Conflicts:      avalon2, avalon3
 BuildRequires:  aspell-devel, zlib-devel
 Source0:        https://build.opensuse.org/source/home:antonbatenev:avalon/avalon/avalon_%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -69,5 +69,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Jun 3 2020 Anton Batenev <antonbatenev@yandex.ru> 1.0.450-1
+* Wed Jun 3 2020 Anton Batenev <antonbatenev@yandex.ru> 1.0.451-1
 - Initial RPM release

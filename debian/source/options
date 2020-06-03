@@ -3,6 +3,7 @@ compression-level = 9
 tar-ignore = .git
 tar-ignore = .gitignore
 tar-ignore = .travis.yml
+tar-ignore = .qmake.stash
 tar-ignore = build
 tar-ignore = debug
 tar-ignore = highlight

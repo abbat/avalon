@@ -26,11 +26,11 @@ override_dh_auto_clean:
 
 override_dh_auto_configure:
 	qmake -project -recursive -Wall -nopwd -o avalon.pro                \
-		"CONFIG += release"                                         \
-		"QT += $(QT_OPTS)"                                          \
-		"INCLUDEPATH += $(CURDIR)/src"                              \
-		"LIBS += -laspell -lz"                                      \
-		"DEFINES += AVALON_PACKAGE"                                 \
+		"CONFIG         += release"                                 \
+		"QT             += $(QT_OPTS)"                              \
+		"INCLUDEPATH    += $(CURDIR)/src"                           \
+		"LIBS           += -laspell -lz"                            \
+		"DEFINES        += AVALON_PACKAGE"                          \
 		"QMAKE_CPPFLAGS *= $(shell dpkg-buildflags --get CPPFLAGS)" \
 		"QMAKE_CFLAGS   *= $(shell dpkg-buildflags --get CFLAGS)"   \
 		"QMAKE_CXXFLAGS *= $(shell dpkg-buildflags --get CXXFLAGS)" \

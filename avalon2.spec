@@ -1,11 +1,11 @@
 Name:           avalon2
-Version:        2.0.7
+Version:        2.0.8
 Release:        1
 Summary:        RSDN offline client
 Group:          Applications/Internet
 License:        BSD-2-clause
 URL:            https://github.com/abbat/avalon
-Conflicts:      avalon
+Conflicts:      avalon, avalon3
 BuildRequires:  aspell-devel, zlib-devel
 Source0:        https://build.opensuse.org/source/home:antonbatenev:avalon/avalon2/avalon2_%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -65,5 +65,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Jun 3 2020 Anton Batenev <antonbatenev@yandex.ru> 2.0.7-1
+* Wed Jun 3 2020 Anton Batenev <antonbatenev@yandex.ru> 2.0.8-1
 - Initial RPM release

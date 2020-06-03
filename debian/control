@@ -12,7 +12,7 @@ Vcs-Browser: https://github.com/abbat/avalon
 Homepage: https://github.com/abbat/avalon
 
 Package: avalon2
-Conflicts: avalon
+Conflicts: avalon, avalon3
 Architecture: any
 Suggests: graphviz
 Recommends: aspell-ru, aspell-en

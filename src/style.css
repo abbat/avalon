@@ -172,6 +172,10 @@ body {
 	color : darkgreen;
 }
 
+#text img {
+	max-width : 90vw;
+}
+
 #text span.alert {
 	color : red;
 }

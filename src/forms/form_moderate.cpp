@@ -15,9 +15,9 @@ FormModerate::FormModerate  (QWidget* parent, int id_message, int edit_id) : For
 		m_button_ok->setEnabled(false);
 
 		// получение информации о модерилке
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -107,9 +107,9 @@ void FormModerate::button_ok_clicked ()
 		info.IDForum = m_forums[m_combo_forum->currentIndex()].ID;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;

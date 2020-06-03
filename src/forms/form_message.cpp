@@ -33,9 +33,9 @@ FormMessage::FormMessage (QWidget* parent, bool is_reply, const AMessageInfoGUI&
 	// и можно продолжать нормальную работу, а не пугать пользователя
 	// https://rsdn.org/forum/janus/3315591.1
 
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() != NULL)
+	if (storage.isNull() == false)
 	{
 		AForumInfo forum_info;
 
@@ -206,9 +206,9 @@ void FormMessage::setMainForm (IFormMain* itf)
 void FormMessage::sendMessage (bool draft)
 {
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -277,9 +277,9 @@ void FormMessage::tab_changed (int tab_index)
 	else if (tab_index == 1)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;

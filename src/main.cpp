@@ -44,7 +44,7 @@ int main (int argc, char* argv[])
 	app.installTranslator(&qt_translator);
 
 	// глобальные настройки
-	std::auto_ptr<AGlobal> global(AGlobal::getInstance());
+	QScopedPointer<AGlobal> global(AGlobal::getInstance());
 
 	// главная форма
 	AFormMain* form = new AFormMain();

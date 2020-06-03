@@ -122,9 +122,9 @@ void AGlobal::reload ()
 	Me.WhereFrom      = "(n/a)";
 	Me.Origin         = "(n/a)";
 
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() != NULL)
+	if (storage.isNull() == false)
 	{
 		Me.Name = settings.value("rsdn/login", "").toString();
 		storage->whoAmI(Me);

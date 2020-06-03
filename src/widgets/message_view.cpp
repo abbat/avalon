@@ -49,9 +49,9 @@ void AMessageView::setMessage (const AMessageInfo& message, const AForumInfo* fo
 	if (forum != NULL && forum->Rated == true)
 	{
 		// "тихий" контроль ошибок, т.к. не страшно, если пузомерка не загрузится
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() != NULL)
+		if (storage.isNull() == false)
 		{
 			AMessageRatingList list;
 

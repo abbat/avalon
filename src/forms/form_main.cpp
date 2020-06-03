@@ -86,9 +86,9 @@ AFormMain::AFormMain () : AFormMainUI (), IFormMain ()
 	m_message_tree->setMainForm(this);
 
 	// проверка корректности соединения
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() != NULL)
+	if (storage.isNull() == false)
 		if (storage->ping() == false)
 			menu_service_settings_triggered();
 
@@ -140,9 +140,9 @@ void AFormMain::menu_service_synchronize_triggered ()
 	m_message_tree->getSelectedPath(restore_path);
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -201,7 +201,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 	{
 		AWebservice::postChange_WebserviceQuery(header, data, messages, ratings, moderates, NULL);
 
-		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
+		QScopedPointer<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -225,7 +225,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 	{
 		AWebservice::postChangeCommit_WebserviceQuery(header, data, cookie, NULL);
 
-		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
+		QScopedPointer<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -346,7 +346,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 		AWebservice::getUserList_WebserviceQuery(header, data, row_version.User, NULL);
 
 		// запрос к вебсервису
-		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
+		QScopedPointer<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -423,7 +423,7 @@ void AFormMain::menu_service_synchronize_triggered ()
 		AWebservice::getMessageList_WebserviceQuery(header, data, row_version, query, NULL);
 
 		// запрос к вебсервису
-		std::auto_ptr<FormRequest> form(new FormRequest(this, header, data));
+		QScopedPointer<FormRequest> form(new FormRequest(this, header, data));
 
 		if (form->exec() == QDialog::Accepted)
 		{
@@ -500,9 +500,9 @@ void AFormMain::menu_service_mark_thread_as_unread_triggered ()
 void AFormMain::menu_service_mark_all_as_read_triggered ()
 {
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -521,14 +521,14 @@ void AFormMain::menu_service_mark_all_as_read_triggered ()
 
 void AFormMain::menu_service_mark_patrial_as_read_triggered ()
 {
-	std::auto_ptr<FormDate> form(new FormDate(this, true));
+	QScopedPointer<FormDate> form(new FormDate(this, true));
 
 	if (form->exec() == QDialog::Accepted)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -555,9 +555,9 @@ void AFormMain::menu_service_mark_all_as_unread_triggered ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -576,14 +576,14 @@ void AFormMain::menu_service_mark_all_as_unread_triggered ()
 
 void AFormMain::menu_service_mark_patrial_as_unread_triggered ()
 {
-	std::auto_ptr<FormDate> form(new FormDate(this, false));
+	QScopedPointer<FormDate> form(new FormDate(this, false));
 
 	if (form->exec() == QDialog::Accepted)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -734,7 +734,7 @@ void AFormMain::menu_goto_next_smart()
 
 void AFormMain::menu_goto_by_id_triggered ()
 {
-	std::auto_ptr<FormInput> form(new FormInput(this, QString::fromUtf8("Перейти к сообщению"), QString::fromUtf8("Введите URL или номер сообщения / ветки"), ""));
+	QScopedPointer<FormInput> form(new FormInput(this, QString::fromUtf8("Перейти к сообщению"), QString::fromUtf8("Введите URL или номер сообщения / ветки"), ""));
 
 	QIcon icon;
 	icon.addFile(":/icons/download16.png",  QSize(16, 16));
@@ -775,9 +775,9 @@ void AFormMain::menu_goto_by_id_triggered ()
 			return;
 		}
 
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -873,15 +873,15 @@ void AFormMain::menu_service_storage_compress_triggered ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
 	}
 
-	std::auto_ptr<FormRequest> form(new FormRequest(this));
+	QScopedPointer<FormRequest> form(new FormRequest(this));
 
 	form->setWindowTitle(QString::fromUtf8("Сжатие хранилища"));
 
@@ -895,8 +895,8 @@ void AFormMain::menu_service_storage_compress_triggered ()
 
 	form->setVisible(true);
 
-	if (storage->compressStorage(form.get()) == false)
-		storage->showError(form.get());
+	if (storage->compressStorage(form.data()) == false)
+		storage->showError(form.data());
 
 	form->exec();
 }
@@ -912,15 +912,15 @@ void AFormMain::menu_service_storage_uncompress_triggered ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
 	}
 
-	std::auto_ptr<FormRequest> form(new FormRequest(this));
+	QScopedPointer<FormRequest> form(new FormRequest(this));
 
 	form->setWindowTitle(QString::fromUtf8("Распаковка хранилища"));
 
@@ -934,8 +934,8 @@ void AFormMain::menu_service_storage_uncompress_triggered ()
 
 	form->setVisible(true);
 
-	if (storage->uncompressStorage(form.get()) == false)
-		storage->showError(form.get());
+	if (storage->uncompressStorage(form.data()) == false)
+		storage->showError(form.data());
 
 	form->exec();
 }
@@ -956,7 +956,7 @@ void AFormMain::tool_bar_forward_triggered  ()
 
 void AFormMain::menu_service_download_triggered()
 {
-	std::auto_ptr<FormInput> form(new FormInput(this, QString::fromUtf8("Загрузка сообщения / ветки"), QString::fromUtf8("Введите URL или номер сообщения / ветки"), ""));
+	QScopedPointer<FormInput> form(new FormInput(this, QString::fromUtf8("Загрузка сообщения / ветки"), QString::fromUtf8("Введите URL или номер сообщения / ветки"), ""));
 
 	QIcon icon;
 	icon.addFile(":/icons/download16.png",  QSize(16, 16));
@@ -996,9 +996,9 @@ void AFormMain::menu_service_download_triggered()
 			return;
 		}
 
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;

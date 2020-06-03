@@ -119,9 +119,9 @@ void FormSettings::createSQLiteDatabase ()
 		settings.setValue("sqlite/file",  new_value);
 
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -155,9 +155,9 @@ void FormSettings::createMySQLDatabase ()
 	settings.setValue("mysql/password", m_text_database_password->text());
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(this, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;

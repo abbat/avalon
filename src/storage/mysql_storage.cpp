@@ -38,9 +38,9 @@ bool AMySQLStorage::ping ()
 {
 	QString sql = "SELECT 1 FROM `version`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return false;
 
 	return query_select->exec();
@@ -67,9 +67,9 @@ bool AMySQLStorage::createDatabase ()
 		if (sql.length() == 0)
 			continue;
 
-		std::auto_ptr<AQuery> query_create(createQuery(sql));
+		QScopedPointer<AQuery> query_create(createQuery(sql));
 
-		if (query_create.get() == NULL)
+		if (query_create.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		if (query_create->exec() == false)
@@ -99,9 +99,9 @@ bool AMySQLStorage::whoAmI (AUserInfo& info)
 	sql += "WHERE\n";
 	sql += "	`name` = :name";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->bindValue(":name", info.Name.toLower());
@@ -146,9 +146,9 @@ bool AMySQLStorage::getRowVersion (ARowVersion& list)
 	sql += "FROM\n";
 	sql += "	`row_version`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -212,9 +212,9 @@ bool AMySQLStorage::getForumList (AForumGroupInfoList& list, bool subscribed_onl
 	sql += "	`group`.`sort_order`,\n";
 	sql += "	`forum`.`name`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -294,9 +294,9 @@ bool AMySQLStorage::setForumList (const AForumGroupInfoList& list)
 	else
 		sql += " `group`";
 
-	std::auto_ptr<AQuery> query_delete_group(createQuery(sql, false));
+	QScopedPointer<AQuery> query_delete_group(createQuery(sql, false));
 
-	if (query_delete_group.get() == NULL)
+	if (query_delete_group.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -352,9 +352,9 @@ bool AMySQLStorage::setForumList (const AForumGroupInfoList& list)
 	else
 		sql += " `forum`";
 
-	std::auto_ptr<AQuery> query_delete_forum(createQuery(sql, false));
+	QScopedPointer<AQuery> query_delete_forum(createQuery(sql, false));
 
-	if (query_delete_forum.get() == NULL)
+	if (query_delete_forum.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -393,9 +393,9 @@ bool AMySQLStorage::setForumList (const AForumGroupInfoList& list)
 		sql += "	`name`       = :u_name,\n";
 		sql += "	`sort_order` = :u_sort_order";
 
-		std::auto_ptr<AQuery> query_insert(createQuery(sql));
+		QScopedPointer<AQuery> query_insert(createQuery(sql));
 
-		if (query_insert.get() == NULL)
+		if (query_insert.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -472,9 +472,9 @@ bool AMySQLStorage::setForumList (const AForumGroupInfoList& list)
 			sql += "	`in_top`     = :u_in_top,\n";
 			sql += "	`rate_limit` = :u_rate_limit";
 
-			std::auto_ptr<AQuery> query_insert(createQuery(sql));
+			QScopedPointer<AQuery> query_insert(createQuery(sql));
 
-			if (query_insert.get() == NULL)
+			if (query_insert.isNull() == true)
 			{
 				QString msg = AMySQLDatabase::getLastError();
 
@@ -540,9 +540,9 @@ bool AMySQLStorage::getSubscribedForumList (ASubscribedForumInfoList& list)
 	sql += "FROM\n";
 	sql += "	`subscribed`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -597,9 +597,9 @@ bool AMySQLStorage::setSubscribedForumList (const ASubscribedForumInfoList& list
 	else
 		sql += " `subscribed`";
 
-	std::auto_ptr<AQuery> query_delete(createQuery(sql, false));
+	QScopedPointer<AQuery> query_delete(createQuery(sql, false));
 
-	if (query_delete.get() == NULL)
+	if (query_delete.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -635,9 +635,9 @@ bool AMySQLStorage::setSubscribedForumList (const ASubscribedForumInfoList& list
 		sql += "ON DUPLICATE KEY UPDATE\n";
 		sql += "	`is_first` = `is_first`";
 
-		std::auto_ptr<AQuery> query_insert(createQuery(sql));
+		QScopedPointer<AQuery> query_insert(createQuery(sql));
 
-		if (query_insert.get() == NULL)
+		if (query_insert.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -689,9 +689,9 @@ bool AMySQLStorage::getForumInfo (int id_forum, AForumInfo& info)
 	sql += "WHERE\n";
 	sql += "	`id` = :id";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->bindValue(":id", id_forum);
@@ -738,9 +738,9 @@ bool AMySQLStorage::setUserList (const AUserInfoList& list, const QString& row_v
 	sql += "ON DUPLICATE KEY UPDATE\n";
 	sql += "	`value` = :u_value";
 
-	std::auto_ptr<AQuery> query_insert_row(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_row(createQuery(sql));
 
-	if (query_insert_row.get() == NULL)
+	if (query_insert_row.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -799,9 +799,9 @@ bool AMySQLStorage::setUserList (const AUserInfoList& list, const QString& row_v
 	sql += "	`where_from`     = :u_where_from,\n";
 	sql += "	`origin`         = :u_origin";
 
-	std::auto_ptr<AQuery> query_insert(createQuery(sql));
+	QScopedPointer<AQuery> query_insert(createQuery(sql));
 
-	if (query_insert.get() == NULL)
+	if (query_insert.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -860,9 +860,9 @@ bool AMySQLStorage::getMaxIDMessage (int& max_id)
 	sql += "FROM\n";
 	sql += "	`message`";
 
-	std::auto_ptr<AQuery> query(createQuery(sql, false));
+	QScopedPointer<AQuery> query(createQuery(sql, false));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query->exec() == false)
@@ -885,9 +885,9 @@ bool AMySQLStorage::getMinIDMessage (int& min_id)
 	sql += "FROM\n";
 	sql += "	`message`";
 
-	std::auto_ptr<AQuery> query(createQuery(sql, false));
+	QScopedPointer<AQuery> query(createQuery(sql, false));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query->exec() == false)
@@ -919,9 +919,9 @@ bool AMySQLStorage::getMessageQuery (ADataQuery& query)
 	sql += "FROM\n";
 	sql += "	`subscribed`";
 
-	std::auto_ptr<AQuery> query_subscribed_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_subscribed_select(createQuery(sql, false));
 
-	if (query_subscribed_select.get() == NULL)
+	if (query_subscribed_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_subscribed_select->setForwardOnly(true);
@@ -954,9 +954,9 @@ bool AMySQLStorage::getMessageQuery (ADataQuery& query)
 	sql += "WHERE\n";
 	sql += "	`is_topic` = false";
 
-	std::auto_ptr<AQuery> query_broken_message_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_broken_message_select(createQuery(sql, false));
 
-	if (query_broken_message_select.get() == NULL)
+	if (query_broken_message_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_broken_message_select->setForwardOnly(true);
@@ -983,9 +983,9 @@ bool AMySQLStorage::getMessageQuery (ADataQuery& query)
 	sql += "WHERE\n";
 	sql += "	`is_topic` = true";
 
-	std::auto_ptr<AQuery> query_broken_topic_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_broken_topic_select(createQuery(sql, false));
 
-	if (query_broken_topic_select.get() == NULL)
+	if (query_broken_topic_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_broken_topic_select->setForwardOnly(true);
@@ -1036,9 +1036,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 		sql += "ON DUPLICATE KEY UPDATE\n";
 		sql += "	`value` = :u_value";
 
-		std::auto_ptr<AQuery> query_insert_row(createQuery(sql));
+		QScopedPointer<AQuery> query_insert_row(createQuery(sql));
 
-		if (query_insert_row.get() == NULL)
+		if (query_insert_row.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -1150,9 +1150,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "	`closed`           = :u_closed,\n";
 	sql += "	`compressed`       = :u_compressed\n";
 
-	std::auto_ptr<AQuery> query_insert_message(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_message(createQuery(sql));
 
-	if (query_insert_message.get() == NULL)
+	if (query_insert_message.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1179,9 +1179,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "	`id_forum`         = :u_id_forum,\n";
 	sql += "	`message_date`     = :u_message_date\n";
 
-	std::auto_ptr<AQuery> query_insert_message_topic(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_message_topic(createQuery(sql));
 
-	if (query_insert_message_topic.get() == NULL)
+	if (query_insert_message_topic.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1217,9 +1217,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "	`id_parent_user` = 0,\n";
 	sql += "	`message_date`   = :u_message_date\n";
 
-	std::auto_ptr<AQuery> query_insert_unread(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_unread(createQuery(sql));
 
-	if (query_insert_unread.get() == NULL)
+	if (query_insert_unread.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1444,9 +1444,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "WHERE\n";
 	sql += "	`id_parent` <> 0";
 
-	std::auto_ptr<AQuery> query_update_unread(createQuery(sql, false));
+	QScopedPointer<AQuery> query_update_unread(createQuery(sql, false));
 
-	if (query_update_unread.get() == NULL)
+	if (query_update_unread.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1486,9 +1486,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 
 		sql += ")";
 
-		std::auto_ptr<AQuery> query_update_child(createQuery(sql, false));
+		QScopedPointer<AQuery> query_update_child(createQuery(sql, false));
 
-		if (query_update_child.get() == NULL)
+		if (query_update_child.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -1516,9 +1516,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 		sql += "	`id_parent` = :id_parent\n";
 		sql += "LIMIT 1";
 
-		std::auto_ptr<AQuery> query_select_child(createQuery(sql));
+		QScopedPointer<AQuery> query_select_child(createQuery(sql));
 
-		if (query_select_child.get() == NULL)
+		if (query_select_child.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -1535,9 +1535,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 		sql += "WHERE\n";
 		sql += "	`id` = :id";
 
-		std::auto_ptr<AQuery> query_update_child(createQuery(sql));
+		QScopedPointer<AQuery> query_update_child(createQuery(sql));
 
-		if (query_update_child.get() == NULL)
+		if (query_update_child.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -1604,9 +1604,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "	`rate`        = :u_rate,\n";
 	sql += "	`rate_date`   = :u_rate_date";
 
-	std::auto_ptr<AQuery> query_insert_rating(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_rating(createQuery(sql));
 
-	if (query_insert_rating.get() == NULL)
+	if (query_insert_rating.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1673,9 +1673,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "	`id_forum` = :u_id_forum,\n";
 	sql += "	`created`  = :u_created";
 
-	std::auto_ptr<AQuery> query_insert_moderate(createQuery(sql));
+	QScopedPointer<AQuery> query_insert_moderate(createQuery(sql));
 
-	if (query_insert_moderate.get() == NULL)
+	if (query_insert_moderate.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1716,9 +1716,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "SET\n";
 	sql += "	`is_first` = false";
 
-	std::auto_ptr<AQuery> query_update_subscribed(createQuery(sql, false));
+	QScopedPointer<AQuery> query_update_subscribed(createQuery(sql, false));
 
-	if (query_update_subscribed.get() == NULL)
+	if (query_update_subscribed.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1741,9 +1741,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql  = "";
 	sql += "DELETE FROM `broken`";
 
-	std::auto_ptr<AQuery> query_delete_broken(createQuery(sql, false));
+	QScopedPointer<AQuery> query_delete_broken(createQuery(sql, false));
 
-	if (query_delete_broken.get() == NULL)
+	if (query_delete_broken.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1790,9 +1790,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "GROUP BY\n";
 	sql += "	`message`.`id_parent`";
 
-	std::auto_ptr<AQuery> query_insert_broken_message(createQuery(sql, false));
+	QScopedPointer<AQuery> query_insert_broken_message(createQuery(sql, false));
 
-	if (query_insert_broken_message.get() == NULL)
+	if (query_insert_broken_message.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1839,9 +1839,9 @@ bool AMySQLStorage::setMessageList (const ADataList& list, const ARowVersion& ro
 	sql += "GROUP BY\n";
 	sql += "	`message`.`id_topic`";
 
-	std::auto_ptr<AQuery> query_insert_broken_topic(createQuery(sql, false));
+	QScopedPointer<AQuery> query_insert_broken_topic(createQuery(sql, false));
 
-	if (query_insert_broken_topic.get() == NULL)
+	if (query_insert_broken_topic.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -1882,9 +1882,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "GROUP BY\n";
 	sql += "	`id_forum`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -1917,9 +1917,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "WHERE\n";
 	sql += "	`draft` = false\n";
 
-	std::auto_ptr<AQuery> query_message(createQuery(sql, false));
+	QScopedPointer<AQuery> query_message(createQuery(sql, false));
 
-	if (query_message.get() == NULL)
+	if (query_message.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_message->exec() == false)
@@ -1943,9 +1943,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "FROM\n";
 	sql += "	`rating2send`";
 
-	std::auto_ptr<AQuery> query_rating(createQuery(sql, false));
+	QScopedPointer<AQuery> query_rating(createQuery(sql, false));
 
-	if (query_rating.get() == NULL)
+	if (query_rating.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_rating->exec() == false)
@@ -1969,9 +1969,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "FROM\n";
 	sql += "	`moderate2send`";
 
-	std::auto_ptr<AQuery> query_moderate(createQuery(sql, false));
+	QScopedPointer<AQuery> query_moderate(createQuery(sql, false));
 
-	if (query_moderate.get() == NULL)
+	if (query_moderate.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_moderate->exec() == false)
@@ -1997,9 +1997,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "WHERE\n";
 	sql += "	`draft` = true\n";
 
-	std::auto_ptr<AQuery> query_draft(createQuery(sql, false));
+	QScopedPointer<AQuery> query_draft(createQuery(sql, false));
 
-	if (query_draft.get() == NULL)
+	if (query_draft.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_draft->exec() == false)
@@ -2030,9 +2030,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "	`unread`.`id_message` = `message`.`id` AND\n";
 	sql += "	`message`.`id_user`   = " + QString::number(id_me);
 
-	std::auto_ptr<AQuery> query_my_messages(createQuery(sql, false));
+	QScopedPointer<AQuery> query_my_messages(createQuery(sql, false));
 
-	if (query_my_messages.get() == NULL)
+	if (query_my_messages.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_my_messages->exec() == false)
@@ -2058,9 +2058,9 @@ bool AMySQLStorage::getUnreadCount (AUnreadForumCountInfoList& list, int id_me)
 	sql += "WHERE\n";
 	sql += "	`id_parent_user` = " + QString::number(id_me);
 
-	std::auto_ptr<AQuery> query_answers_to_me(createQuery(sql, false));
+	QScopedPointer<AQuery> query_answers_to_me(createQuery(sql, false));
 
-	if (query_answers_to_me.get() == NULL)
+	if (query_answers_to_me.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_answers_to_me->exec() == false)
@@ -2108,9 +2108,9 @@ bool AMySQLStorage::getForumTopicList (int id_forum, int count, QList<int>& list
 		sql += "	" + QString::number(count);
 	}
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -2138,9 +2138,9 @@ bool AMySQLStorage::getForumTopicList (int id_forum, int count, QList<int>& list
 	sql += "ORDER BY\n";
 	sql += "	`message_date`";
 
-	std::auto_ptr<AQuery> query_select_unread_child(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_unread_child(createQuery(sql, false));
 
-	if (query_select_unread_child.get() == NULL)
+	if (query_select_unread_child.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select_unread_child->setForwardOnly(true);
@@ -2185,9 +2185,9 @@ bool AMySQLStorage::getForumTopicList (int id_forum, int count, QList<int>& list
 	sql += "ORDER BY\n";
 	sql += "	`message_date`";
 
-	std::auto_ptr<AQuery> query_select_unread_topic(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_unread_topic(createQuery(sql, false));
 
-	if (query_select_unread_topic.get() == NULL)
+	if (query_select_unread_topic.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select_unread_topic->setForwardOnly(true);
@@ -2264,9 +2264,9 @@ bool AMySQLStorage::getTopicInfoList (int id_forum, AMessageInfoGUIPtrList& list
 	sql += "WHERE\n";
 	sql += "	`id` IN (" + ids + ")";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -2332,9 +2332,9 @@ bool AMySQLStorage::getTopicInfoList (int id_forum, AMessageInfoGUIPtrList& list
 		sql += "	`m1`.`id_parent`  = `m2`.`id` AND\n";
 		sql += "	`m2`.`id_user`    = " + QString::number(id_me);
 
-		std::auto_ptr<AQuery> query_select_my_me(createQuery(sql, false));
+		QScopedPointer<AQuery> query_select_my_me(createQuery(sql, false));
 
-		if (query_select_my_me.get() == NULL)
+		if (query_select_my_me.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		query_select_my_me->setForwardOnly(true);
@@ -2371,9 +2371,9 @@ bool AMySQLStorage::getTopicInfoList (int id_forum, AMessageInfoGUIPtrList& list
 	sql += "WHERE\n";
 	sql += "	`id_message` IN (" + ids + ")";
 
-	std::auto_ptr<AQuery> query_select_unread(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_unread(createQuery(sql, false));
 
-	if (query_select_unread.get() == NULL)
+	if (query_select_unread.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select_unread->setForwardOnly(true);
@@ -2416,9 +2416,9 @@ bool AMySQLStorage::getTopicInfoList (int id_forum, AMessageInfoGUIPtrList& list
 	sql += "GROUP BY\n";
 	sql += "	`id_topic`\n";
 
-	std::auto_ptr<AQuery> query_select_unread_child(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_unread_child(createQuery(sql, false));
 
-	if (query_select_unread_child.get() == NULL)
+	if (query_select_unread_child.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select_unread_child->setForwardOnly(true);
@@ -2480,9 +2480,9 @@ bool AMySQLStorage::getTopicMessageList (int id_forum, int id_topic, AMessageInf
 	//sql += "	`message_date` DESC";
 	sql += "	`id` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -2527,9 +2527,9 @@ bool AMySQLStorage::getTopicMessageList (int id_forum, int id_topic, AMessageInf
 	sql += "ORDER BY\n";
 	sql += "	`message_date`";
 
-	std::auto_ptr<AQuery> query_select_unread(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_unread(createQuery(sql, false));
 
-	if (query_select_unread.get() == NULL)
+	if (query_select_unread.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select_unread->setForwardOnly(true);
@@ -2572,9 +2572,9 @@ bool AMySQLStorage::getMessageBody (int id_message, QString& body)
 	sql += "WHERE\n";
 	sql += "	`id` = " + QString::number(id_message);
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_select->exec() == false)
@@ -3024,9 +3024,9 @@ bool AMySQLStorage::setIDsAsRead (const QList<int>& list, AIDSet type, bool read
 		}   // switch (type)
 	}   // if (read == true) else ...
 
-	std::auto_ptr<AQuery> query(createQuery(sql, false));
+	QScopedPointer<AQuery> query(createQuery(sql, false));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query->exec() == false)
@@ -3053,9 +3053,9 @@ bool AMySQLStorage::setIDsAsRead (const QList<int>& list, AIDSet type, bool read
 		sql += "WHERE\n";
 		sql += "	`id_parent` <> 0";
 
-		std::auto_ptr<AQuery> query_update_unread(createQuery(sql));
+		QScopedPointer<AQuery> query_update_unread(createQuery(sql));
 
-		if (query_update_unread.get() == NULL)
+		if (query_update_unread.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		if (query_update_unread->exec() == false)
@@ -3113,9 +3113,9 @@ bool AMySQLStorage::unsubscribe (const QList<int>& list, AIDSet type, bool clean
 			sql += "	)";
 		}
 
-		std::auto_ptr<AQuery> query_unread(createQuery(sql, false));
+		QScopedPointer<AQuery> query_unread(createQuery(sql, false));
 
-		if (query_unread.get() == NULL)
+		if (query_unread.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -3164,9 +3164,9 @@ bool AMySQLStorage::unsubscribe (const QList<int>& list, AIDSet type, bool clean
 
 		sql += "	)";
 
-		std::auto_ptr<AQuery> query_rating(createQuery(sql, false));
+		QScopedPointer<AQuery> query_rating(createQuery(sql, false));
 
-		if (query_rating.get() == NULL)
+		if (query_rating.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -3215,9 +3215,9 @@ bool AMySQLStorage::unsubscribe (const QList<int>& list, AIDSet type, bool clean
 
 		sql += "	)";
 
-		std::auto_ptr<AQuery> query_moderate(createQuery(sql, false));
+		QScopedPointer<AQuery> query_moderate(createQuery(sql, false));
 
-		if (query_moderate.get() == NULL)
+		if (query_moderate.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -3257,9 +3257,9 @@ bool AMySQLStorage::unsubscribe (const QList<int>& list, AIDSet type, bool clean
 			sql += "	)";
 		}
 
-		std::auto_ptr<AQuery> query_message(createQuery(sql, false));
+		QScopedPointer<AQuery> query_message(createQuery(sql, false));
 
-		if (query_message.get() == NULL)
+		if (query_message.isNull() == true)
 		{
 			QString msg = AMySQLDatabase::getLastError();
 
@@ -3300,9 +3300,9 @@ bool AMySQLStorage::unsubscribe (const QList<int>& list, AIDSet type, bool clean
 		sql += "	)";
 	}
 
-	std::auto_ptr<AQuery> query_subscribed(createQuery(sql, false));
+	QScopedPointer<AQuery> query_subscribed(createQuery(sql, false));
 
-	if (query_subscribed.get() == NULL)
+	if (query_subscribed.isNull() == true)
 	{
 		QString msg = AMySQLDatabase::getLastError();
 
@@ -3343,9 +3343,9 @@ bool AMySQLStorage::getMessageIds (int from_id, int to_id, QList<int>& list)
 	sql += "ORDER BY\n";
 	sql += "	`id`";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3393,9 +3393,9 @@ bool AMySQLStorage::addMessage2Send (const AMessage2Send& info)
 	sql += "	`date`      = :u_date,\n";
 	sql += "	`draft`     = :u_draft";
 
-	std::auto_ptr<AQuery> query(createQuery(sql));
+	QScopedPointer<AQuery> query(createQuery(sql));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query->bindValue(":id",        info.ID);
@@ -3438,9 +3438,9 @@ bool AMySQLStorage::getMessage2SendList (AMessageInfoList& list, bool drafts)
 	sql += "ORDER BY\n";
 	sql += "	`date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3505,9 +3505,9 @@ bool AMySQLStorage::addRating2Send (const ARating2Send& info)
 	sql += "	`rate`       = :u_rate,\n";
 	sql += "	`date`       = :u_date";
 
-	std::auto_ptr<AQuery> query(createQuery(sql));
+	QScopedPointer<AQuery> query(createQuery(sql));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query->bindValue(":id",         info.ID);
@@ -3559,9 +3559,9 @@ bool AMySQLStorage::getRating2SendList (AMessageInfoList& message_list, ARating2
 	sql += "ORDER BY\n";
 	sql += "	`rating2send`.`date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3624,9 +3624,9 @@ bool AMySQLStorage::getRating2SendList (ARating2SendList& list)
 	sql += "ORDER BY\n";
 	sql += "	`date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3662,9 +3662,9 @@ bool AMySQLStorage::changeRating (int id, int new_rate)
 	sql += "WHERE\n";
 	sql += "	`id` = " + QString::number(id);
 
-	std::auto_ptr<AQuery> query_update(createQuery(sql, false));
+	QScopedPointer<AQuery> query_update(createQuery(sql, false));
 
-	if (query_update.get() == NULL)
+	if (query_update.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_update->exec() == false)
@@ -3706,9 +3706,9 @@ bool AMySQLStorage::addModerate2Send (const AModerate2Send& info)
 	sql += "	`as_moderator` = :u_as_moderator,\n";
 	sql += "	`date`         = :u_date";
 
-	std::auto_ptr<AQuery> query(createQuery(sql));
+	QScopedPointer<AQuery> query(createQuery(sql));
 
-	if (query.get() == NULL)
+	if (query.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query->bindValue(":id",           info.ID);
@@ -3769,9 +3769,9 @@ bool AMySQLStorage::getModerate2SendList (AMessageInfoList& message_list, AModer
 	sql += "ORDER BY\n";
 	sql += "	`moderate2send`.`date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3840,9 +3840,9 @@ bool AMySQLStorage::getModerate2SendList (AModerate2SendList& list)
 	sql += "ORDER BY\n";
 	sql += "	`date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -3886,9 +3886,9 @@ bool AMySQLStorage::getModerate2SendInfo (int id, AModerate2Send& info)
 	sql += "WHERE\n";
 	sql += "	`id` = " + QString::number(id);
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_select->exec() == false)
@@ -3935,9 +3935,9 @@ bool AMySQLStorage::setCommitResult (const ACommitInfo& info)
 
 		sql += ")";
 
-		std::auto_ptr<AQuery> query_delete(createQuery(sql, false));
+		QScopedPointer<AQuery> query_delete(createQuery(sql, false));
 
-		if (query_delete.get() == NULL)
+		if (query_delete.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		if (query_delete->exec() == false)
@@ -3962,9 +3962,9 @@ bool AMySQLStorage::setCommitResult (const ACommitInfo& info)
 
 		sql += ")";
 
-		std::auto_ptr<AQuery> query_delete(createQuery(sql, false));
+		QScopedPointer<AQuery> query_delete(createQuery(sql, false));
 
-		if (query_delete.get() == NULL)
+		if (query_delete.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		if (query_delete->exec() == false)
@@ -3989,9 +3989,9 @@ bool AMySQLStorage::setCommitResult (const ACommitInfo& info)
 
 		sql += ")";
 
-		std::auto_ptr<AQuery> query_delete(createQuery(sql, false));
+		QScopedPointer<AQuery> query_delete(createQuery(sql, false));
 
-		if (query_delete.get() == NULL)
+		if (query_delete.isNull() == true)
 			return returnError(AMySQLDatabase::getLastError());
 
 		if (query_delete->exec() == false)
@@ -4033,9 +4033,9 @@ bool AMySQLStorage::deleteSpecial (const QList<int>& ids, int id_special)
 
 	sql += ")";
 
-	std::auto_ptr<AQuery> query_delete(createQuery(sql, false));
+	QScopedPointer<AQuery> query_delete(createQuery(sql, false));
 
-	if (query_delete.get() == NULL)
+	if (query_delete.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_delete->exec() == false)
@@ -4066,9 +4066,9 @@ bool AMySQLStorage::getMessageRatingList (int id_message, AMessageRatingList& li
 	sql += "ORDER BY\n";
 	sql += "	`rating`.`rate_date` DESC";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->bindValue(":id_message", id_message);
@@ -4119,9 +4119,9 @@ bool AMySQLStorage::compressStorage (IProgress* progress)
 	sql += "	`id` <  :id_2 AND\n";
 	sql += "	`compressed` = false";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -4136,9 +4136,9 @@ bool AMySQLStorage::compressStorage (IProgress* progress)
 	sql += "WHERE\n";
 	sql += "	`id` = :id";
 
-	std::auto_ptr<AQuery> query_update(createQuery(sql));
+	QScopedPointer<AQuery> query_update(createQuery(sql));
 
-	if (query_update.get() == NULL)
+	if (query_update.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	//
@@ -4314,9 +4314,9 @@ bool AMySQLStorage::uncompressStorage (IProgress* progress)
 	sql += "	`id` <  :id_2 AND\n";
 	sql += "	`compressed` = true";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -4331,9 +4331,9 @@ bool AMySQLStorage::uncompressStorage (IProgress* progress)
 	sql += "WHERE\n";
 	sql += "	`id` = :id";
 
-	std::auto_ptr<AQuery> query_update(createQuery(sql));
+	QScopedPointer<AQuery> query_update(createQuery(sql));
 
-	if (query_update.get() == NULL)
+	if (query_update.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	//
@@ -4516,9 +4516,9 @@ bool AMySQLStorage::getMessagePath (int id_message, int& id_forum, QList<int>& p
 	sql += "WHERE\n";
 	sql += "	`id` = " + QString::number(id_message);
 
-	std::auto_ptr<AQuery> query_select_first(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select_first(createQuery(sql, false));
 
-	if (query_select_first.get() == NULL)
+	if (query_select_first.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_select_first->exec() == false)
@@ -4546,9 +4546,9 @@ bool AMySQLStorage::getMessagePath (int id_message, int& id_forum, QList<int>& p
 	sql += "WHERE\n";
 	sql += "	`id` = :id";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql));
+	QScopedPointer<AQuery> query_select(createQuery(sql));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	// проход до корня
@@ -4584,9 +4584,9 @@ bool AMySQLStorage::addBroken (int id_message, bool is_topic)
 	sql += "	:is_topic\n";
 	sql += ")";
 
-	std::auto_ptr<AQuery> query_insert(createQuery(sql));
+	QScopedPointer<AQuery> query_insert(createQuery(sql));
 
-	if (query_insert.get() == NULL)
+	if (query_insert.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_insert->bindValue(":id_message", id_message);
@@ -4612,9 +4612,9 @@ bool AMySQLStorage::hasBroken (bool& result)
 	sql += "LIMIT\n";
 	sql += "	1";
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	if (query_select->exec() == false)
@@ -4647,9 +4647,9 @@ bool AMySQLStorage::getMyMessageList (int id_me, int count, QList<int>& list)
 	if (count > 0)
 		sql += "\nLIMIT " + QString::number(count);
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);
@@ -4696,9 +4696,9 @@ bool AMySQLStorage::getAnswers2MeList (int id_me, int count, QList<int>& list)
 	if (count > 0)
 		sql += "\nLIMIT " + QString::number(count);
 
-	std::auto_ptr<AQuery> query_select(createQuery(sql, false));
+	QScopedPointer<AQuery> query_select(createQuery(sql, false));
 
-	if (query_select.get() == NULL)
+	if (query_select.isNull() == true)
 		return returnError(AMySQLDatabase::getLastError());
 
 	query_select->setForwardOnly(true);

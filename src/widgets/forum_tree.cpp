@@ -166,9 +166,9 @@ void AForumTree::reload ()
 	clear();
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -402,9 +402,9 @@ void AForumTree::reload ()
 void AForumTree::reloadUnread (bool reload_message_tree)
 {
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -727,9 +727,9 @@ void AForumTree::menu_mark_all_as_read_triggered ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -771,14 +771,14 @@ void AForumTree::menu_mark_patrial_as_read_triggered ()
 	if (item == NULL)
 		return;
 
-	std::auto_ptr<FormDate> form(new FormDate(m_parent, true));
+	QScopedPointer<FormDate> form(new FormDate(m_parent, true));
 
 	if (form->exec() == QDialog::Accepted)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -822,9 +822,9 @@ void AForumTree::menu_mark_all_as_unread_triggered ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -878,14 +878,14 @@ void AForumTree::menu_mark_patrial_as_unread_triggered ()
 	if (item == NULL)
 		return;
 
-	std::auto_ptr<FormDate> form(new FormDate(m_parent, false));
+	QScopedPointer<FormDate> form(new FormDate(m_parent, false));
 
 	if (form->exec() == QDialog::Accepted)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -948,9 +948,9 @@ void AForumTree::menu_unsubscribe_triggered ()
 		clean = true;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;

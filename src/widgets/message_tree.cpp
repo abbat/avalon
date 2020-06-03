@@ -384,9 +384,9 @@ void AMessageTree::changeForum (const AForumInfo* forum_info)
 	//
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -515,9 +515,9 @@ void AMessageTree::scrollTopics ()
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -586,9 +586,9 @@ void AMessageTree::expand_item (QTreeWidgetItem* item_expanded)
 	if (info->HasChild == true && info->IsChildLoaded == false)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -762,7 +762,7 @@ void AMessageTree::showSource ()
 	if (item == NULL)
 		return;
 
-	std::auto_ptr<FormSource> form(new FormSource(m_parent, item->pag()->Message));
+	QScopedPointer<FormSource> form(new FormSource(m_parent, item->pag()->Message));
 
 	form->exec();
 }
@@ -830,9 +830,9 @@ void AMessageTree::selection_changed ()
 	if (info->IsBodyLoaded == false)
 	{
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -863,9 +863,9 @@ void AMessageTree::selection_changed ()
 		// для формирования ссылки на сообщение неизвестно - получаем из хранилища
 
 		// получение хранилища
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -909,9 +909,9 @@ void AMessageTree::markItemAsRead (QTreeWidgetItem* widget_item, bool is_read)
 		return;
 
 	// пометить как прочитанное в хранилище
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1174,9 +1174,9 @@ void AMessageTree::menu_mark_message_as_unread_triggered ()
 
 bool AMessageTree::markThreadAsRead (int id, bool is_read)
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return false;
@@ -1395,9 +1395,9 @@ void AMessageTree::menu_reply_triggered ()
 
 void AMessageTree::loadMessage2Send (bool drafts)
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1565,10 +1565,10 @@ void AMessageTree::processUrl (const QString& url)
 			}
 
 			// попытка получения пути сообщения
-			std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+			QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
 			// "тихая" отработка ошибок, т.к. ошибки не критичны
-			if (storage.get() == NULL)
+			if (storage.isNull() == true)
 			{
 				QDesktopServices::openUrl(external_url);
 				return;
@@ -1607,9 +1607,9 @@ void AMessageTree::processUrl (const QString& url)
 		return;
 
 	// получение хранилища
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1751,9 +1751,9 @@ void AMessageTree::gotoNextUnreadArticle (QTreeWidgetItem* current_item)
 
 void AMessageTree::loadRating2Send ()
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1841,9 +1841,9 @@ void AMessageTree::loadRating2Send ()
 
 void AMessageTree::loadModerate2Send ()
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1914,9 +1914,9 @@ void AMessageTree::loadModerate2Send ()
 
 void AMessageTree::loadMyMessages()
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -1949,9 +1949,9 @@ void AMessageTree::loadMyMessages()
 
 void AMessageTree::loadAnswers2Me()
 {
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -2057,9 +2057,9 @@ void AMessageTree::menu_special_delete_triggered ()
 	))
 		return;
 
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -2141,9 +2141,9 @@ void AMessageTree::changeRating (int new_rate)
 	if (m_current_forum.ID != SPECIAL_ID_FORUM_RATING2SEND)
 		return;
 
-	std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+	QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-	if (storage.get() == NULL)
+	if (storage.isNull() == true)
 	{
 		QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 		return;
@@ -2417,9 +2417,9 @@ void AMessageTree::gotoBackward ()
 		int id_forum   = 0;
 		int id_message = m_history[m_history_index - 1];
 
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;
@@ -2463,9 +2463,9 @@ void AMessageTree::gotoForward ()
 		int id_forum   = 0;
 		int id_message = m_history[m_history_index + 1];
 
-		std::auto_ptr<IAStorage> storage(AStorageFactory::getStorage());
+		QScopedPointer<IAStorage> storage(AStorageFactory::getStorage());
 
-		if (storage.get() == NULL)
+		if (storage.isNull() == true)
 		{
 			QMessageBox::critical(m_parent, QString::fromUtf8("Ошибка!"), QString::fromUtf8("Не выбрано хранилище данных"));
 			return;

@@ -65,6 +65,7 @@
 #include <QLibraryInfo>
 #include <QIntValidator>
 #include <QNetworkProxy>
+#include <QScopedPointer>
 #include <QDesktopWidget>
 #include <QTemporaryFile>
 #include <QCalendarWidget>

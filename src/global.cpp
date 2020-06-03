@@ -18,38 +18,64 @@ AGlobal::AGlobal ()
 {
 	g_global = this;
 
-	// предпочитаемый список шифров
-	static const char* AVALON_CIPHERS[] =
+	// белый список шифров (в порядке предпочтения)
+	static const char* AVALON_WHITELIST_CIPHERS[] =
 	{
-		"ECDHE-RSA-AES128-SHA",     // SSLv3 Kx=ECDH Au=RSA   Enc=AES(128) Mac=SHA1
-		"ECDHE-ECDSA-AES128-SHA",   // SSLv3 Kx=ECDH Au=ECDSA Enc=AES(128) Mac=SHA1
-		"ECDHE-RSA-AES256-SHA",     // SSLv3 Kx=ECDH Au=RSA   Enc=AES(256) Mac=SHA1
-		"ECDHE-ECDSA-AES256-SHA",   // SSLv3 Kx=ECDH Au=ECDSA Enc=AES(256) Mac=SHA1
-		"AES128-SHA",               // SSLv3 Kx=RSA  Au=RSA   Enc=AES(128) Mac=SHA1
-		"AES256-SHA",               // SSLv3 Kx=RSA  Au=RSA   Enc=AES(256) Mac=SHA1
+		"TLS_AES_128_GCM_SHA256",          // TLSv1.3 Kx=any  Au=any   Enc=AESGCM(128) Mac=AEAD
+		"TLS_AES_256_GCM_SHA384",          // TLSv1.3 Kx=any  Au=any   Enc=AESGCM(256) Mac=AEAD
+		"ECDHE-ECDSA-AES128-GCM-SHA256",   // TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(128) Mac=AEAD
+		"ECDHE-RSA-AES128-GCM-SHA256",     // TLSv1.2 Kx=ECDH Au=RSA   Enc=AESGCM(128) Mac=AEAD
+		"ECDHE-ECDSA-AES128-SHA256",       // TLSv1.2 Kx=ECDH Au=ECDSA Enc=AES(128)    Mac=SHA256
+		"ECDHE-RSA-AES128-SHA256",         // TLSv1.2 Kx=ECDH Au=RSA   Enc=AES(128)    Mac=SHA256
+		"ECDHE-ECDSA-AES128-SHA",          // TLSv1   Kx=ECDH Au=ECDSA Enc=AES(128)    Mac=SHA1
+		"ECDHE-RSA-AES128-SHA",            // TLSv1   Kx=ECDH Au=RSA   Enc=AES(128)    Mac=SHA1
+		"ECDHE-ECDSA-AES256-GCM-SHA384",   // TLSv1.2 Kx=ECDH Au=ECDSA Enc=AESGCM(256) Mac=AEAD
+		"ECDHE-RSA-AES256-GCM-SHA384",     // TLSv1.2 Kx=ECDH Au=RSA   Enc=AESGCM(256) Mac=AEAD
+		"ECDHE-ECDSA-AES256-SHA384",       // TLSv1.2 Kx=ECDH Au=ECDSA Enc=AES(256)    Mac=SHA384
+		"ECDHE-RSA-AES256-SHA384",         // TLSv1.2 Kx=ECDH Au=RSA   Enc=AES(256)    Mac=SHA384
+		"ECDHE-ECDSA-AES256-SHA",          // TLSv1   Kx=ECDH Au=ECDSA Enc=AES(256)    Mac=SHA1
+		"ECDHE-RSA-AES256-SHA",            // TLSv1   Kx=ECDH Au=RSA   Enc=AES(256)    Mac=SHA1
+		"AES128-GCM-SHA256",               // TLSv1.2 Kx=RSA  Au=RSA   Enc=AESGCM(128) Mac=AEAD
+		"AES128-SHA256",                   // TLSv1.2 Kx=RSA  Au=RSA   Enc=AES(128)    Mac=SHA256
+		"AES128-SHA",                      // SSLv3   Kx=RSA  Au=RSA   Enc=AES(128)    Mac=SHA1
+		"AES256-GCM-SHA384",               // TLSv1.2 Kx=RSA  Au=RSA   Enc=AESGCM(256) Mac=AEAD
+		"AES256-SHA256",                   // TLSv1.2 Kx=RSA  Au=RSA   Enc=AES(256)    Mac=SHA256
+		"AES256-SHA",                      // SSLv3   Kx=RSA  Au=RSA   Enc=AES(256)    Mac=SHA1
+
 		NULL
 	};
 
-	// поддерживаемый список шифров
+	// конфигурация ssl по умолчанию
+	QSslConfiguration ssl_config = QSslConfiguration::defaultConfiguration();
+	// список шифров по умолчанию
+	QList<QSslCipher> default_ciphers = ssl_config.ciphers();
+
+	// поддерживаемый список шифров (пересечение белого списка и умолчаний)
 	QList<QSslCipher> cipher_list;
 
-	const char** ciphers = AVALON_CIPHERS;
-	while ((*ciphers) != NULL)
+	const char** whitelist_ciphers = AVALON_WHITELIST_CIPHERS;
+	while ((*whitelist_ciphers) != NULL)
 	{
-		QSslCipher cipher(*ciphers, QSsl::SslV3);
-		if (cipher.isNull() == false)
-			cipher_list.append(cipher);
+		QString whitelist_cipher = QString(*whitelist_ciphers);
+		for (int i = 0; i < default_ciphers.count(); i++)
+		{
+			if (default_ciphers[i].name() == whitelist_cipher) {
+				cipher_list.append(default_ciphers[i]);
+				break;
+			}
+		}
 
-		ciphers++;
+		whitelist_ciphers++;
 	}
 
-	// задание конфигурации ssl по умолчанию
-	QSslConfiguration ssl_default = QSslConfiguration::defaultConfiguration();
+	// cо времени POODLE прошло более 5 лет - можно сделать предположение,
+	// что к текущему моменту все успели обновить OpenSSL и отключили SSLv3,
+	// отключение принудительного QSsl::TlsV1 для старых версий Qt позволит
+	// отображать изображения передаваемые по TLSv1.2+
+	ssl_config.setProtocol(QSsl::SecureProtocols);
+	ssl_config.setCiphers(cipher_list);
 
-	ssl_default.setProtocol(QSsl::TlsV1);
-	ssl_default.setCiphers(cipher_list);
-
-	QSslConfiguration::setDefaultConfiguration(ssl_default);
+	QSslConfiguration::setDefaultConfiguration(ssl_config);
 
 	// значения по умолчанию
 	AnonymousName = QString::fromUtf8("Аноним");

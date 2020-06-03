@@ -1,13 +1,18 @@
-[![Build Status](https://travis-ci.org/abbat/avalon.svg?branch=master)](https://travis-ci.org/abbat/avalon)
+[![Build Status](https://travis-ci.org/abbat/avalon.svg?branch=2.0)](https://travis-ci.org/abbat/avalon)
 
 # Avalon
 
 Кросс-платформенный клиент для offline работы с форумами [RSDN](https://rsdn.org/projects/janus/article/article.xml), аналогичный проекту [RSDN@Home](https://rsdn.org/projects/janus/article/article.xml) команды RSDN под Windows.
 
+# EOL
+
+Ветка 2.x более не поддерживается т.к. рассчитана на совместимую сборку под Qt4 и Qt5, а поддержка Qt 4.8.7 закончилась в 2015 году.
+
 # Загрузка / Установка
 
-* [Debian, Ubuntu](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon2)
-* [Fedora, openSUSE, CentOS](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon2)
+Пока существуют дистрибутивы с поддержкой Qt4:
+
+* [DEB, RPM](http://software.opensuse.org/download.html?project=home:antonbatenev:avalon&package=avalon2)
 * [Ubuntu PPA](https://launchpad.net/~abbat/+archive/ubuntu/avalon) - `ppa:abbat/avalon`
 * [Windows](https://yadi.sk/d/W9kZi-GLqTN7G)
 

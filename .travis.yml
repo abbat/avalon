@@ -3,13 +3,12 @@ language: cpp
 compiler:
   - gcc
 
+branches:
+  only:
+    - 1.0
+
 install:
   - sudo apt-get -y install libqt4-dev libqtwebkit-dev zlib1g-dev libaspell-dev
 
 script:
   - ./build.linux.sh
-
-branches:
-  only:
-    - master
-    - 1.0
